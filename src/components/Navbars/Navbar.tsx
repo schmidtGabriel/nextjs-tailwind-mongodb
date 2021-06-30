@@ -3,6 +3,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid'
 import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import FirstUppercase from 'util/functions'
 
 export default function Navbar() {
   const router = useRouter()
@@ -25,7 +26,7 @@ export default function Navbar() {
   return (
     <div className="md:flex md:items-center md:justify-between py-5">
     <div className="flex-1 min-w-0">
-      <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">{title.toUpperCase()}</h2>
+      <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">{FirstUppercase(title)}</h2>
     </div>
     {go != "" && 
     <div className="mt-4 flex md:mt-0 md:ml-4"> 
