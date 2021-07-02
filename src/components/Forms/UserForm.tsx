@@ -1,6 +1,8 @@
 import Navbar from "components/Navbars/Navbar";
 import Admin from "layouts/Admin";
-import React from "react";
+import React, {useState} from "react";
+import User from "../../models/User";
+import InputMask from 'react-input-mask';
 
 const tabs = [
   { name: 'My Account', href: '#', current: true },
@@ -11,6 +13,22 @@ function classNames(...classes) {
 }
 
   export default function UserForm(props) {
+    const [data, setData] = useState(props.data != undefined? props.data: {})
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      // console.log(data)
+     props.onSubmitEvent(data);
+  };
+
+  const handleChange = async (e) =>{
+    setData({
+      ...data,
+      [e.target.name]: e.target.value
+    })
+
+  }
+
     return (
       <>
       <div>
@@ -51,17 +69,27 @@ function classNames(...classes) {
         </div>
       </div>
     </div>
-      <div className="space-y-6 mt-4">
-
+    <div className="space-y-6 mt-4" >
       <div className="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
         <div className="md:grid md:grid-cols-3 md:gap-6">
-          <div className="md:col-span-1">
-            <h3 className="text-lg font-medium leading-6 text-gray-900">Personal Information</h3>
+          <div className="md:grid md:grid-rows-6 md:col-span-1">
+            <div className="md:col-span-1">
+              <h3 className="text-lg font-medium leading-6 text-gray-900">Personal Information</h3>
             <p className="mt-1 text-sm text-gray-500">Use a permanent address where you can receive mail.</p>
+            </div>
+            <div className={data._id ? 'hidden': 'row-start-3 row-end-3'}>
+              <h3 className="text-lg font-medium leading-6 text-gray-900">First Access</h3>
+            <p className="mt-1 text-sm text-gray-500">To create a new user, please fill the password.</p>
+            </div>
+            <div className='row-start-4 row-end-5'>
+              <h3 className="text-lg font-medium leading-6 text-gray-900">Personal Address</h3>
+            <p className="mt-1 text-sm text-gray-500">Please, provide your address</p>
+            </div>
           </div>
-          <div className="mt-5 md:mt-0 md:col-span-2">
-            <form action="#" method="POST">
-            <div>
+          
+          <div className="md:mt-0 md:col-span-2">
+            <form onSubmit={handleSubmit}>
+            <div className={!data._id? 'hidden': 'mb-4'}>
                 <label className="block text-sm font-medium text-gray-700">Photo</label>
                 <div className="mt-1 flex items-center space-x-5">
                   <span className="inline-block h-12 w-12 rounded-full overflow-hidden bg-gray-100">
@@ -77,46 +105,102 @@ function classNames(...classes) {
                   </button>
                 </div>
               </div>
-              <div className="grid grid-cols-6 gap-6 mt-4">
+              <div className="grid grid-cols-6 gap-6 ">
               <div className="col-span-6 sm:col-span-3">
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                  First Name
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                  Name
                 </label>
                 <div className="mt-1">
                   <input
                     type="text"
-                    name="email"
-                    id="email"
+                    name="name"
+                    id="name"
+                    value={data.name || ''}
+                    onChange={handleChange}
                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                    placeholder="you@example.com"
+                    placeholder="Gabriel..."
                   />
                 </div>
               </div>
 
-                <div className="col-span-6 sm:col-span-3">
-                  <label htmlFor="last_name" className="block text-sm font-medium text-gray-700">
-                    Last name
+              <div className="col-span-6 sm:col-span-3">
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                    Email
                   </label>
                   <input
                     type="text"
-                    name="last_name"
-                    id="last_name"
-                    autoComplete="family-name"
+                    name="email"
+                    id="email"
+                    autoComplete="email"
+                    value={data.email || ''}
+                    onChange={handleChange}
+                    placeholder="you@example.com"
                     className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                   />
                 </div>
 
-                <div className="col-span-6 sm:col-span-4">
-                  <label htmlFor="email_address" className="block text-sm font-medium text-gray-700">
-                    Email address
+                <div className="col-span-6 sm:col-span-3">
+                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+                    Phone
                   </label>
-                  <input
-                    type="text"
-                    name="email_address"
-                    id="email_address"
-                    autoComplete="email"
-                    className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                  />
+                  <InputMask mask="(99) 99999-9999" value={data.phone || ''} onChange={handleChange}>
+                    {(inputProps) =>
+                      <input
+                        type="tel"
+                        name="phone"
+                        id="phone"
+                        {...inputProps}
+                        className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                      />
+                    }
+                  </InputMask>
+                </div>
+
+                <div className="col-span-6 sm:col-span-3">
+                  <label htmlFor="birthday" className="block text-sm font-medium text-gray-700">
+                    Birthday
+                  </label>
+                  <InputMask mask="99/99/9999" value={data.birthday || ''} onChange={handleChange}>
+                  {(inputProps) =>
+                    <input
+                      type="tel"
+                      name="birthday"
+                      id="birthday"
+                      {...inputProps}
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                    />
+                  }
+                  </InputMask>
+                </div>
+
+                <div className={data._id? 'hidden':'grid grid-cols-2 gap-6 col-span-12 sm:col-span-6 '}>
+                  <div className="col-span-2 sm:col-span-1">
+                    <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                      Password
+                    </label>
+                    <input
+                      type="tel"
+                      name="password"
+                      id="password"
+                      value={data.password || ''}
+                      onChange={handleChange}
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                    />
+                  </div>
+
+                  <div className="col-span-2 sm:col-span-1">
+                    <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+                      Confirm Password
+                    </label>
+                    <input
+                      type="tel"
+                      name="confirmPassword"
+                      id="confirmPassword"
+                      value={data.confirmPassword || ''}
+                      onChange={handleChange}
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                    />
+                  </div>
                 </div>
 
                 <div className="col-span-6 sm:col-span-3">
@@ -185,24 +269,19 @@ function classNames(...classes) {
                   />
                 </div>
               </div>
+                <div className="flex justify-end mt-5">
+                  <button
+                    type="submit"
+                    className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  >
+                    Save
+                  </button>
+            </div>
             </form>
           </div>
         </div>
       </div>
-      <div className="flex justify-end">
-        <button
-          type="button"
-          className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        >
-          Save
-        </button>
-      </div>
+     
     </div>
       </>
     )

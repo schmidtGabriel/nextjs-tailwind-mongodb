@@ -2,8 +2,13 @@ import {
     PhoneIcon,
     AtSymbolIcon,
   } from '@heroicons/react/outline'
+  import React, {useState} from "react";
 
-export default function UserCard() {
+export default function UserCard(props) {
+  const [name, setName] = useState(props.data.name);
+  const [email, setEmail] = useState(props.data.email);
+  const [phone, setPhone] = useState(props.data.phone);
+
     return (
         <div className="flex flex-row px-4 py-2 items-center">
       <div className="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">
@@ -19,21 +24,21 @@ export default function UserCard() {
         </svg>
       </div>
       <div className="flex flex-col gap-2">
-        <h1 className="text-2xl font-bold">Gabriel Schmidt</h1>
+        <h1 className="text-2xl font-bold">{name}</h1>
         <div className="flex flex-row gap-4">
         <div className="flex flex-row content-center">
         <PhoneIcon
         className="text-black-400 h-5 w-5 mt-0.5"
         aria-hidden="true"
         />
-        <span className="text-base"> 27 988088628 </span>
+        <span className="text-base"> {phone} </span>
         </div>
         <div className="flex flex-row content-center items-stretch">
         <AtSymbolIcon
         className="text-black-400 h-5 w-5 mt-0.5"
         aria-hidden="true"
         />
-        <span className="text-base">  g.avilasouza@gmail.com </span>
+        <span className="text-base">  {email} </span>
         </div>
         </div>
       </div>

@@ -3,7 +3,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid'
 import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import FirstUppercase from 'util/functions'
+import { FirstUppercase } from 'utils/functions'
 
 export default function Navbar() {
   const router = useRouter()
