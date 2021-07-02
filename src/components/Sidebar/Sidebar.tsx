@@ -15,9 +15,9 @@ import { SearchIcon } from '@heroicons/react/solid'
 import { useRouter } from 'next/router'
 
 const navigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: HomeIcon, current: false },
-  { name: 'Users', href: '/user', icon: UsersIcon, current: false },
-  { name: 'Products', href: '#', icon: FolderIcon, current: false },
+  { name: 'Dashboard',value: 'dashboard', href: '/admin/dashboard', icon: HomeIcon, current: false },
+  { name: 'Users', value:'user', href: '/admin/user', icon: UsersIcon, current: false },
+  { name: 'Products',value: 'product', href: '#', icon: FolderIcon, current: false },
 ]
 
 
@@ -44,7 +44,7 @@ export default function Sidebar({ children }) {
   const rootpage = router.pathname.replace("/","").split("/")
   for(var i=0; i < navigation.length;i++){
       navigation[i].current = false
-      if(rootpage[0] == navigation[i].href.replace("/","")){
+      if(rootpage[1] == navigation[i].value){
         navigation[i].current = true
       }
   }
@@ -102,7 +102,7 @@ export default function Sidebar({ children }) {
               </Transition.Child>
               <div className="flex flex-col items-center flex-shrink-0 py-10 bg-gray-900">
               <img className="h-20 w-20 rounded-full" src={people.image} alt="" />
-              <a  href={`/user/${people.id}`}><div className="text-lg font-medium text-white mt-2 cursor-pointer">Bem vindo  {people.name}</div></a>
+              <a  href={`admin/user/${people.id}`}><div className="text-lg font-medium text-white mt-2 cursor-pointer">Bem vindo  {people.name}</div></a>
               <div className="text-sm font-light text-white mt-2 cursor-pointer">Log out</div>
               </div>
               <div className="mt-5 flex-1 h-0 overflow-y-auto">

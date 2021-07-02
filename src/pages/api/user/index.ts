@@ -9,7 +9,7 @@ export default async (req, res) => {
         case 'GET':
              const {page, limit} = req.query
             try{
-                const users = await User.find({})
+                const users = await User.find({}).select("+password")
                 .skip( parseInt(page) * parseInt(limit) )
                 .limit(parseInt(limit))
 
@@ -20,6 +20,8 @@ export default async (req, res) => {
             break;
         case 'POST':
             try{
+                req.body.confirmPassword = undefined
+
                 const user = await User.create(req.body);
                 return res.status(200).json({success: true, data: user})
             }catch(error){

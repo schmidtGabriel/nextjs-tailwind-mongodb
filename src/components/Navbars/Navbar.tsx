@@ -11,16 +11,16 @@ export default function Navbar() {
   let title = path[0]
   if(path.length >= 2){
     if(path[1]=="create"){
-      title = path[0] +"-"+ path[1]
+      title = path[1] +"-"+ path[1]
     }else{
-      title = path[0] +"-"+ "Edit"
+      title = path[1] +"-"+ "Edit"
     }
   
   }
 
   let go = ""
-  if(path[0] != "dashboard" && path.length == 1){
-    go = path[0]+"/create"
+  if(path[1] != "dashboard" && path.length == 2){
+    go = path[1]+"/create"
   }
 
   return (
@@ -35,7 +35,7 @@ export default function Navbar() {
         type="button"
         className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
       >
-        Create
+        Create {path[1]}
       </button>
         </Link>
      

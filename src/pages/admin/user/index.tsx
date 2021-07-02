@@ -2,8 +2,8 @@ import Navbar from "components/Navbars/Navbar";
 import Admin from "layouts/Admin";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import User from "../../models/User";
-import dbConnect from '../../utils/mongodb';
+import User from "../../../models/User";
+import dbConnect from '../../../utils/mongodb';
 import { getAll, del } from "utils/Api";
 import { formatDate } from "utils/functions";
 
@@ -15,8 +15,8 @@ function classNames(...classes) {
 
 
 
- function Users() {
-  const [data, setData] = useState([])
+ function Users({props}) {
+  const [data, setData] = useState(props)
   const [page, setPage] = useState(0)
   const limit = 10
 
@@ -29,7 +29,7 @@ function classNames(...classes) {
     }
   }
 
-const fetchData = async (number, type) => {
+  async function fetchData(number, type){
   if(number >= 0 && type == 'prev' || data.length == limit && type == 'next' || type=='start'){
     const query = `?page=${number}&limit=${limit}`
     const res = await getAll("api/user"+query)
@@ -38,12 +38,6 @@ const fetchData = async (number, type) => {
   }
   
 }
- 
-
-useEffect(()=>{
-  fetchData(page, 'start')
-}, []);
-
 
 
   return (
@@ -194,22 +188,22 @@ useEffect(()=>{
 //     .limit(10)  
 //   return {
 //     props: {
-//       data: JSON.parse(JSON.stringify(data))
+//       props: JSON.parse(JSON.stringify(data))
 //     },
 //   }
 // }
 
-// export async function getServerSideProps(context) {
+export async function getServerSideProps(context) {
 
-//   const data = await User.find({})
-//   .skip(0)
-//   .limit(10)
+  const data = await User.find({})
+  .skip(0)
+  .limit(10)
 
-//     return {
-//       props: {
-//         data: JSON.parse(JSON.stringify(data))
-//       },
-//     };
-// }
+    return {
+      props: {
+        props: JSON.parse(JSON.stringify(data))
+      },
+    };
+}
 
 export default Users

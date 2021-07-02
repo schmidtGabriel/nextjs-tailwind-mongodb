@@ -3,7 +3,8 @@ import mongoose from 'mongoose'
 export const baseURL = 'http://localhost:3000/'
 export const header: {} = {
   "Accept" : "application/json",
-  "Content-Type": "application/json"
+  "Content-Type": "application/json",
+  // "Authentication": `DoNada ${localStorage.getItem('token')}`
 }
 
 let uri = process.env.MONGODB_URI

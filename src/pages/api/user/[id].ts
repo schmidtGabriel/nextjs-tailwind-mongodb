@@ -12,7 +12,7 @@ export default async (req, res) => {
     switch(method){
         case 'GET':
             try{
-                const user = await User.findById(id)
+                const user = await User.findById(id).select("+password")
 
                 if(!user){
                     res.status(400).json({success: false})
@@ -28,7 +28,7 @@ export default async (req, res) => {
                 const user = await User.findByIdAndUpdate(id, req.body, {
                     new: true,
                     runValidators: true
-                })
+                }).select("+password")
 
                 if(!user){
                     res.status(400).json({success: false})

@@ -4,7 +4,7 @@ import Admin from "layouts/Admin";
 import User from "models/User";
 import router from "next/router";
 import React, {useState} from "react";
-import {post} from "../../utils/Api";
+import {post} from "../../../utils/Api";
 
   export default function UserCreate() {
     const [user, setUser] = useState({})
