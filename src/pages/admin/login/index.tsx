@@ -2,6 +2,7 @@ import { useState } from 'react';
 import jwt from 'jsonwebtoken';
 import { get, post } from 'utils/Api';
 import router from 'next/router';
+import { getlocalUser } from '../../../utils/functions';
 
 
 export default function Login() {
@@ -23,8 +24,8 @@ setData({
     ...data,
     [e.target.name]: e.target.value
 })
-
 }
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -95,16 +96,7 @@ setData({
   )
 }
 
-export async function getStaticProps() {
-    // Get external data from the file system, API, DB, etc.
-    const data = localStorage.getItem('user')
-    console.log(data)
+function getUser() {
+  throw new Error('Function not implemented.');
+}
 
-//    const res = await get("api/auth/me")
-  
-    // The value of the `props` key will be
-    //  passed to the `Home` component
-    return {
-      props: data
-    }
-  }

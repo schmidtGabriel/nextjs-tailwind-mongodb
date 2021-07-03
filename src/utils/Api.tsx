@@ -1,7 +1,7 @@
 
 
+import router from "next/router";
 import { baseURL , header } from "../utils/mongodb";
-
 
 export async function getAll(route) {
     
@@ -10,7 +10,7 @@ export async function getAll(route) {
         method: 'GET', 
         headers: {
             ...header,
-            "authentication": "DoNada "+localStorage.getItem('token')
+            "authorization": "DoNada "+localStorage.getItem('token')
         },
       })
       if(res){
@@ -21,12 +21,18 @@ export async function getAll(route) {
  }
 
 export async function get(id, route) {
+    var getRoute = "";
+    if(id){
+        getRoute = baseURL+route+"/"+id
+    }else{
+        getRoute = baseURL+route
+    }
 
-    const res = await fetch(baseURL+route+"/"+id,{
+    const res = await fetch(getRoute,{
         method: 'GET', 
         headers:  {
             ...header,
-            "authentication": "DoNada "+localStorage.getItem('token')
+            "authorization": "DoNada "+localStorage.getItem('token')
         },
       })
       if(res){
@@ -42,7 +48,7 @@ export async function post(data, route) {
         method: 'POST', 
         headers: {
             ...header,
-            "authentication": "DoNada "+localStorage.getItem('token')
+            "authorization": "DoNada "+localStorage.getItem('token')
         },
         body: JSON.stringify(data)
       })
@@ -59,7 +65,7 @@ export async function post(data, route) {
         method: 'PUT', 
         headers:  {
             ...header,
-            "authentication": "DoNada "+localStorage.getItem('token')
+            "authorization": "DoNada "+localStorage.getItem('token')
         },
         body: JSON.stringify(data)
       })
@@ -76,7 +82,7 @@ export async function post(data, route) {
         method: 'DELETE', 
         headers:  {
             ...header,
-            "authentication": "DoNada "+localStorage.getItem('token')
+            "authorization": "DoNada "+localStorage.getItem('token')
         },
       })
       if(res){
@@ -84,4 +90,14 @@ export async function post(data, route) {
       }else{
           return "Error"
       }
+ }
+
+ export async function logout() {
+
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+
+    router.push('/admin')
+
+
  }

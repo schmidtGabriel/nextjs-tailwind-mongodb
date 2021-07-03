@@ -35,7 +35,7 @@ export default async function(req: NextApiRequest, res: NextApiResponse){
         user.password = undefined
         user.confirmPassword = undefined
 
-        const token = await generateToken({id: user.id})
+        const token = await generateToken({id: user._id})
 
         res.status(200).json({success: true, data: user, token: token})
     }catch(error){

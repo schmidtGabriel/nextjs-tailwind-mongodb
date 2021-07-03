@@ -12,9 +12,6 @@ function classNames(...classes) {
 }
 
 
-
-
-
  function Users({props}) {
   const [data, setData] = useState(props)
   const [page, setPage] = useState(0)

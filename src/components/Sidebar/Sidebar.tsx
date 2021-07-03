@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { Dialog, Menu, Transition } from '@headlessui/react'
 import {
   BellIcon,
@@ -13,6 +13,9 @@ import {
 } from '@heroicons/react/outline'
 import { SearchIcon } from '@heroicons/react/solid'
 import { useRouter } from 'next/router'
+import { getlocalUser } from '../../utils/functions';
+import NoImage from 'components/Image/NoImage'
+import { logout } from 'utils/Api'
 
 const navigation = [
   { name: 'Dashboard',value: 'dashboard', href: '/admin/dashboard', icon: HomeIcon, current: false },
@@ -20,26 +23,26 @@ const navigation = [
   { name: 'Products',value: 'product', href: '#', icon: FolderIcon, current: false },
 ]
 
+export interface User {
+  _id: ''
+  name: '',
+  imageURL: '',
+}
 
-const people = 
-  {
-    id: "1",
-    name: 'Jane Cooper',
-    title: 'Regional Paradigm Technician',
-    department: 'Optimization',
-    role: 'Admin',
-    email: 'jane.cooper@example.com',
-    image:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-  };
+
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
+
 export default function Sidebar({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-
+  const [user, setUser] = useState({
+    _id: '',
+    name: '',
+    imageURL: '',
+  })
   const router = useRouter()
   const rootpage = router.pathname.replace("/","").split("/")
   for(var i=0; i < navigation.length;i++){
@@ -48,6 +51,16 @@ export default function Sidebar({ children }) {
         navigation[i].current = true
       }
   }
+
+  useEffect(() => {
+    async function fetchMyAPI() {
+      const u = await getlocalUser()
+      setUser(u)
+    }
+    
+    fetchMyAPI()
+},[])
+
 
 
   return (
@@ -101,9 +114,15 @@ export default function Sidebar({ children }) {
                 </div>
               </Transition.Child>
               <div className="flex flex-col items-center flex-shrink-0 py-10 bg-gray-900">
-              <img className="h-20 w-20 rounded-full" src={people.image} alt="" />
-              <a  href={`admin/user/${people.id}`}><div className="text-lg font-medium text-white mt-2 cursor-pointer">Bem vindo  {people.name}</div></a>
-              <div className="text-sm font-light text-white mt-2 cursor-pointer">Log out</div>
+                {user.imageURL != ""? 
+                <img className="h-20 w-20 rounded-full" src={user.imageURL} alt="" />
+                :
+                <span className="inline-block h-16 w-16 mr-2 rounded-full overflow-hidden bg-gray-100">
+                <NoImage/>
+                </span>
+                }  
+                <a  href={`user/${user._id}`}><div className="text-lg font-medium text-white mt-2 cursor-pointer">Bem vindo  {user.name}</div></a>
+                <div className="text-sm font-light text-white mt-2 cursor-pointer">Log out</div>
               </div>
               <div className="mt-5 flex-1 h-0 overflow-y-auto">
                 <nav className="px-2 space-y-1">
@@ -141,11 +160,17 @@ export default function Sidebar({ children }) {
         <div className="flex flex-col w-64">
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex flex-col h-0 flex-1">
-            <div className="flex flex-col items-center flex-shrink-0 py-10 bg-gray-900">
-            <img className="h-20 w-20 rounded-full" src={people.image} alt="" />
-            <a  href={`/user/${people.id}`}><div className="text-lg font-medium text-white mt-2 cursor-pointer">Bem vindo  {people.name}</div></a>
-            <div className="text-sm font-light text-white mt-2 cursor-pointer">Log out</div>
-            </div>
+          <div className="flex flex-col items-center flex-shrink-0 py-10 bg-gray-900">
+                {user.imageURL ? 
+                <img className="h-20 w-20 rounded-full" src={user.imageURL} alt="" />
+                :
+                <span className="inline-block h-20 w-20 mr-2 rounded-full overflow-hidden bg-gray-100">
+                <NoImage/>
+                </span>
+                }  
+                <a  href={`user/${user._id}`}><div className="text-lg font-medium text-white mt-2 cursor-pointer">Bem vindo  {user.name}</div></a>
+                <div onClick={logout} className="text-sm font-light text-white mt-2 cursor-pointer underline">Log out</div>
+              </div>
             <div className="flex-1 flex flex-col overflow-y-auto">
               <nav className="flex-1 px-2 py-4 bg-gray-800 space-y-1">
                 {navigation.map((item) => (
@@ -194,3 +219,5 @@ export default function Sidebar({ children }) {
     </div>
   )
 }
+
+
