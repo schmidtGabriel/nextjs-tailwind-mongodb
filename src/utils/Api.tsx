@@ -10,7 +10,7 @@ export async function getAll(route) {
         method: 'GET', 
         headers: {
             ...header,
-            "authorization": "DoNada "+localStorage.getItem('token')
+            "authorization": "DoNada "+localStorage.getItem('token'),
         },
       })
       if(res){

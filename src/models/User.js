@@ -8,6 +8,7 @@ const UserSchema =  new mongoose.Schema({
     },
     instagram: {
         type: String,
+        default: ''
     },
     email: {
         type: String,
@@ -17,23 +18,28 @@ const UserSchema =  new mongoose.Schema({
     },
     cpf: {
         type: String,
-        lowercase: true
+        lowercase: true,
+        default: ''
     },
     phone: {
         type: String,
-        lowercase: true
+        lowercase: true,
+        default: ''
     },
     birthday: {
         type: String,
-        lowercase: true
+        lowercase: true,
+        default: ''
     },
     imgeURL: {
         type: String,
+        default: ''
+,
     },
     password: {
         type: String,
         required: true,
-        select: false
+        select: false,
     },
     roles: {
         type: Array,

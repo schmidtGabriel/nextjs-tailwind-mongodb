@@ -3,7 +3,7 @@ module.exports = {
       ignoreBuildErrors: true,
     },
     env:{
-      MONGODB_URI: "mongodb://localhost/virtualstore",
+      MONGODB_URI: "mongodb://localhost/easymenu",
       SECRET_KEY: "k31jpajdp32mmadDoNadaLSLKS98ADN"
     },
     async redirects() {
@@ -11,14 +11,9 @@ module.exports = {
         {
           source: '/',
           destination: '/admin',
-          permanent: true,
-        },
-        // {
-        //   source: '/admin',
-        //   destination: '/admin/dashboard',
-        //   permanent: true,
-        // },
+          permanent: false,
+        }
       ]
     },
   }
-  
+  //      SECRET_KEY: "k31jpajdp32mmadDoNadaLSLKS98ADN"

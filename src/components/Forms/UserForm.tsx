@@ -78,11 +78,11 @@ function classNames(...classes) {
               <h3 className="text-lg font-medium leading-6 text-gray-900">Personal Information</h3>
             <p className="mt-1 text-sm text-gray-500">Use a permanent address where you can receive mail.</p>
             </div>
-            <div className={data._id ? 'hidden': 'row-start-3 row-end-3'}>
+            <div className={data._id ? 'hidden': 'row-start-3 row-end-3 mt-12'}>
               <h3 className="text-lg font-medium leading-6 text-gray-900">First Access</h3>
             <p className="mt-1 text-sm text-gray-500">To create a new user, please fill the password.</p>
             </div>
-            <div className='row-start-4 row-end-5'>
+            <div className='row-start-4 row-end-5 mt-14'>
               <h3 className="text-lg font-medium leading-6 text-gray-900">Personal Address</h3>
             <p className="mt-1 text-sm text-gray-500">Please, provide your address</p>
             </div>
@@ -175,7 +175,11 @@ function classNames(...classes) {
                   }
                   </InputMask>
                 </div>
+                <div className="col-span-6 sm:col-span-3">
+                  <Roles/>
+                </div>
 
+                  {/* PASSWORD */}
                 <div className={data._id? 'hidden':'grid grid-cols-2 gap-6 col-span-12 sm:col-span-6 '}>
                   <div className="col-span-2 sm:col-span-1">
                     <label htmlFor="password" className="block text-sm font-medium text-gray-700">
@@ -205,7 +209,8 @@ function classNames(...classes) {
                     />
                   </div>
                 </div>
-
+                </div>
+                <div className="grid grid-cols-6 gap-6  mt-5">
                 <div className="col-span-6 sm:col-span-3">
                   <label htmlFor="country" className="block text-sm font-medium text-gray-700">
                     Country / Region
@@ -287,5 +292,47 @@ function classNames(...classes) {
      
     </div>
       </>
+    )
+  }
+
+  export function Roles(){
+
+    return(
+      <div className="grid grid-cols-3 gap-2 col-span-6 ">
+      <div className="col-span-6">Roles</div>
+    <div className="flex items-center">
+    <input
+      id="remember-me"
+      name="remember-me"
+      type="checkbox"
+      className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+    />
+    <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+      User
+    </label>
+  </div>
+  <div className="flex items-center">
+    <input
+      id="remember-me"
+      name="remember-me"
+      type="checkbox"
+      className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+    />
+    <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+      Owner
+    </label>
+  </div>
+  <div className="flex items-center">
+    <input
+      id="remember-me"
+      name="remember-me"
+      type="checkbox"
+      className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+    />
+    <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+      Admin
+    </label>
+  </div>
+  </div>
     )
   }
