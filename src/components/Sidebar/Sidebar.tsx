@@ -121,7 +121,7 @@ export default function Sidebar({ children }) {
                 <NoImage/>
                 </span>
                 }  
-                <a  href={`user/${user._id}`}><div className="text-lg font-medium text-white mt-2 cursor-pointer">Bem vindo  {user.name}</div></a>
+                <a  href={`/admin/user/${user._id}`}><div className="text-lg font-medium text-white mt-2 cursor-pointer">Bem vindo  {user.name}</div></a>
                 <div className="text-sm font-light text-white mt-2 cursor-pointer">Log out</div>
               </div>
               <div className="mt-5 flex-1 h-0 overflow-y-auto">

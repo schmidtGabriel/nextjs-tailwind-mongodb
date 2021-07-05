@@ -140,7 +140,7 @@ function classNames(...classes) {
                 >
                   <div className="hidden sm:block">
                     <p className="text-sm text-gray-700">
-                      Showing <span className="font-medium">{page * limit}</span> to <span className="font-medium">{page * limit + limit}</span> Results
+                      Showing <span className="font-medium">{page * limit + 1}</span> to <span className="font-medium">{page * limit + limit}</span> Results
                     </p>
                   </div>
                   <div className="flex-1 flex justify-start md:justify-end">

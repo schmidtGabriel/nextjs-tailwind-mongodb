@@ -1,25 +1,33 @@
 import Navbar from "components/Navbars/Navbar";
 import Admin from "layouts/Admin";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import User from "../../models/User";
 import InputMask from 'react-input-mask';
 import NoImage from "components/Image/NoImage";
+import user from "pages/api/user";
+import { classNames, getlocalUser } from "utils/functions";
+import Notification, { show } from "components/Notification/Notification";
+import dynamic from 'next/dynamic'
 
 const tabs = [
   { name: 'My Account', href: '#', current: true },
 ]
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}
 
   export default function UserForm(props) {
     const [data, setData] = useState(props.data != undefined? props.data: {})
+    const [notify, setNotify] = useState({msg: "", info: "", type:null, show: true})
+    let DynamicComponent = dynamic(null);
 
     const handleSubmit = async (e) => {
       e.preventDefault();
+
+      // show({msg: "Success", info: "Parabens, atualizado com sucess", type: "success", show: false})
+      setNotify({msg: "Success", info: "Parabens, atualizado com sucess", type: "success", show: true})
+
+
       // console.log(data)
-     props.onSubmitEvent(data);
+    // props.onSubmitEvent(data);
   };
 
   const handleChange = async (e) =>{
@@ -30,9 +38,12 @@ function classNames(...classes) {
 
   }
 
+
     return (
       <>
-      <div>
+      <div id="content">
+      <Notification props={notify} fragment={this} />
+
       <div className="sm:hidden">
         <label htmlFor="tabs" className="sr-only">
           Select a tab
@@ -176,7 +187,7 @@ function classNames(...classes) {
                   </InputMask>
                 </div>
                 <div className="col-span-6 sm:col-span-3">
-                  <Roles/>
+                  <Roles roles={data.roles} />
                 </div>
 
                   {/* PASSWORD */}
@@ -295,44 +306,114 @@ function classNames(...classes) {
     )
   }
 
-  export function Roles(){
+  export function Roles(data){
+    const [roles, setRoles] = useState({
+      user: hasRole('user', data.roles),
+      owner: hasRole('owner', data.roles),
+      admin: hasRole('admin', data.roles)
+    })
+    const [disable, setDisable] = useState({
+      user: false,
+      owner: false,
+      admin: false
+    })
+
+    useEffect(() => {
+      async function fetchMyAPI() {
+        const u = await getlocalUser()
+        setDisable({
+          user: hasRole('user', u.roles),
+          owner: hasRole('owner', u.roles),
+          admin: hasRole('admin', u.roles)
+        })
+      }
+      
+      fetchMyAPI()
+  },[])
+  
+    
+    const checkboxChange = async (e) =>{
+      const index = data.roles.indexOf(e.target.name)
+
+      if(index  > -1){
+        data.roles.splice(index, 1)
+      }else{
+        data.roles.push(e.target.name)
+      }
+
+      setRoles({
+        ...roles,
+        [e.target.name]: hasRole(e.target.name, data.roles)
+      })
+      
+    }
+
+    function hasRole(e, data): boolean{
+      const index = data.indexOf(e)
+      if(index  > -1){
+       return true
+      }else{
+        return false
+      }
+    }
+    
 
     return(
       <div className="grid grid-cols-3 gap-2 col-span-6 ">
       <div className="col-span-6">Roles</div>
-    <div className="flex items-center">
+      <div className="flex items-center">
     <input
-      id="remember-me"
-      name="remember-me"
+      id="admin"
+      name="admin"
       type="checkbox"
-      className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+      disabled={!disable.admin}
+      checked={roles.admin}
+      onChange={checkboxChange}
+      className={classNames(
+        !disable.admin
+          ? 'text-gray-200'
+          : 'focus:ring-indigo-500 text-indigo-600',
+        'h-4 w-4 border-gray-300 rounded'
+      )}
     />
-    <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-      User
+    <label htmlFor="admin" className="ml-2 block text-sm text-gray-900">
+      Admin
     </label>
   </div>
+  
   <div className="flex items-center">
     <input
-      id="remember-me"
-      name="remember-me"
+      id="owner"
+      name="owner"
       type="checkbox"
-      className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-    />
-    <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+      disabled={disable.user && !disable.admin}
+      checked={roles.owner}
+      onChange={checkboxChange}
+      className={classNames(
+        disable.user && !disable.admin
+          ? 'text-gray-200'
+          : 'focus:ring-indigo-500 text-indigo-600',
+        'h-4 w-4 border-gray-300 rounded'
+      )}
+      />
+    <label htmlFor="owner" className="ml-2 block text-sm text-gray-900">
       Owner
     </label>
   </div>
   <div className="flex items-center">
     <input
-      id="remember-me"
-      name="remember-me"
+      id="user"
+      name="user"
       type="checkbox"
+      checked={roles.user}
+      onChange={checkboxChange}
       className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
     />
-    <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-      Admin
+    <label htmlFor="user" className="ml-2 block text-sm text-gray-900">
+      User
     </label>
   </div>
+ 
   </div>
     )
   }

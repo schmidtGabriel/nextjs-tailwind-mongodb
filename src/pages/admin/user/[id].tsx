@@ -5,13 +5,14 @@ import Admin from "layouts/Admin";
 import { Collection } from "mongoose";
 import React, {useEffect, useState, useLayoutEffect} from "react";
 import { put } from "utils/Api";
+import { getlocalUser } from "utils/functions";
 import User from "../../../models/User";
 import dbConnect from '../../../utils/mongodb';
 
   export default function UserEdit({data}) {
   const [user, setUser] = useState(data)
-    
 
+  
   const onSave = async (data) => {
     try{
       const res = await put(data, "api/user")
