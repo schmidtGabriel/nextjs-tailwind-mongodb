@@ -92,6 +92,25 @@ export async function post(data, route) {
       }
  }
 
+ export async function postFile(file, route) {
+    const fd = new FormData()
+    fd.append('file', file, file.name)
+    console.log(file)
+    const res = await fetch(baseURL+route,{
+        method: 'POST', 
+        headers: {
+            ...header,
+            "authorization": "DoNada "+localStorage.getItem('token')
+        },
+        body: file
+      })
+      if(res){
+          return res.json()
+      }else{
+          return "Error"
+      }
+ }
+
  export async function logout() {
 
     localStorage.removeItem('token')

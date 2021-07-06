@@ -5,7 +5,7 @@ import Admin from "layouts/Admin";
 import { Collection } from "mongoose";
 import React, {useEffect, useState, useLayoutEffect} from "react";
 import { toast } from "react-toastify";
-import { put } from "utils/Api";
+import { postFile, put } from "utils/Api";
 import { getlocalUser } from "utils/functions";
 import User from "../../../models/User";
 import dbConnect from '../../../utils/mongodb';
@@ -16,9 +16,15 @@ import dbConnect from '../../../utils/mongodb';
   
   const onSave = async (data) => {
     try{
+      const file = data.file
+      data.imageURL = ""
       const res = await put(data, "api/user")
       if(res.$success){
-       setUser(user => res.$success.info) 
+       setUser(user => res.$success.info)
+       if(file){
+        await postFile(file, "api/user/image/"+user._id)
+       }
+
        toast.success('Success: '+res.$success.msg);
       }else{
         toast.error('Error: '+res.$error.info);

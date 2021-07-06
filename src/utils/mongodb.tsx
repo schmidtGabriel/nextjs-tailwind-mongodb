@@ -1,8 +1,8 @@
 import mongoose from 'mongoose'
 
-export const baseURL = 'http://localhost:3000/'
+export const baseURL = process.env.APP_URL
 export const header: {} = {
-  "Accept" : "application/json",
+  "Accept" : "application/json, multipart/form-data",
   "Content-Type": "application/json",
   // "Authentication": `DoNada ${localStorage.getItem('token')}`
 }
