@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import User from 'models/User';
 import {NextApiRequest, NextApiResponse} from 'next';
 import dbConnect from 'utils/mongodb';
+const message = require("../../../constants/messages");
 
 dbConnect();
 
@@ -44,7 +45,7 @@ export default async function(req, res){
         const user = await User.findById(req.userId)
 
         if(!user){
-            res.status(400).json({success: false})
+            res.status(400).send(message(2))
         }
 
         user.password = undefined
@@ -52,10 +53,10 @@ export default async function(req, res){
 
         const token = await generateToken({id: user._id})
 
-        res.status(200).json({success: true, data: user, token: token})
+        res.status(200).send(message(0, {user: user, token: token}))
     
     }catch(error){
-        res.status(400).json({success: false, msg: "Basic Error"})
+        res.status(400).send(message(1))
     }
     
 }

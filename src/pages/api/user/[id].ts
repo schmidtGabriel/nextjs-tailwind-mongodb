@@ -1,5 +1,6 @@
 import dbConnect  from "utils/mongodb";
 import User from "../../../models/User";
+const message = require("../../../constants/messages");
 
 dbConnect();
 
@@ -15,14 +16,14 @@ export default async (req, res) => {
                 const user = await User.findById(id).select("+password")
 
                 if(!user){
-                    res.status(400).json({success: false})
+                    res.status(400).send(message(2))
                 }
 
 
-                res.status(200).json({success: true, data: user})
+                res.status(200).send(message(0, user))
 
             }catch(error){
-                res.status(400).json({success: false})
+                res.status(400).send(message(1))
             }
             break;
         case 'PUT':
@@ -33,11 +34,12 @@ export default async (req, res) => {
                 }).select("+password")
 
                 if(!user){
-                    res.status(400).json({success: false})
+                    res.status(400).send(message(2))
                 }
-                res.status(200).json({success: true, data: user})
+
+                res.status(200).send(message(0, user))
             }catch(error){
-                res.status(400).json({success: false})
+                res.status(400).send(message(1))
             }
             break;
         case 'DELETE':
@@ -49,11 +51,11 @@ export default async (req, res) => {
                 }
                 res.status(200).json({success: true, data: {}})
             }catch(error){
-                res.status(400).json({success: false})
+                res.status(400).send(message(1))
             }
             break;
         default: 
-            res.status(400).json({success: false})
+                res.status(400).send(message(1))
             break;
 
     };

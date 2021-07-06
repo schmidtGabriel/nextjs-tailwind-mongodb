@@ -4,6 +4,7 @@ import Admin from "layouts/Admin";
 import User from "models/User";
 import router from "next/router";
 import React, {useState} from "react";
+import { toast } from "react-toastify";
 import {post} from "../../../utils/Api";
 
   export default function UserCreate() {
@@ -13,13 +14,18 @@ import {post} from "../../../utils/Api";
       try{
         const res = await post(data, "api/user")
         
-        if(res){
-          const user = res.data
-          router.push(user._id)
-        }
+          if(res.$success){
+            const user = res.$success.info
+            toast.success('Success: '+res.$success.msg);
+            router.push(user._id)
+
+           }else{
+             toast.error('Error: '+res.$error.info);
+           }
         
       }catch(err){
-    
+        toast.error('Error: '+err);
+
       }
       
     }

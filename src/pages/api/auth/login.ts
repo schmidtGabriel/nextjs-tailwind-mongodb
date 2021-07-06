@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import User from 'models/User';
 import {NextApiRequest, NextApiResponse} from 'next';
 import dbConnect from 'utils/mongodb';
+const message = require("../../../constants/messages");
 
 dbConnect();
 
@@ -26,20 +27,20 @@ export default async function(req: NextApiRequest, res: NextApiResponse){
         const user = await User.findOne({email}).select('+password')
 
         if(!user){
-            res.status(400).json({success: false, msg: 'User not found'})
+            res.status(400).send(message(2))
         }
 
         if(!await bcrypt.compare(password, user.password))
-        return res.status(400).json({success: false, msg: 'Invalid password'})
+        return res.status(400).send(message(3))
 
         user.password = undefined
         user.confirmPassword = undefined
 
         const token = await generateToken({id: user._id})
 
-        res.status(200).json({success: true, data: user, token: token})
+        res.status(200).send(message(0, {user: user, token: token}))
     }catch(error){
-        res.status(400).json({success: false, msg: error})
+        res.status(400).send(message(1))
     }
     
 }

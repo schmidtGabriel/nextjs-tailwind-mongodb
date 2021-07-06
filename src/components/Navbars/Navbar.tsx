@@ -8,14 +8,13 @@ import { FirstUppercase } from 'utils/functions'
 export default function Navbar() {
   const router = useRouter()
   const path = router.asPath.replace("/", "").split("/");
-  let title = path[0]
-  if(path.length >= 2){
-    if(path[1]=="create"){
-      title = path[1] +"-"+ path[1]
+  let title = path[1]
+  if(path.length > 2){
+    if(path[2]=="create"){
+      title = path[1] +"-"+ path[2]
     }else{
       title = path[1] +"-"+ "Edit"
     }
-  
   }
 
   let go = ""

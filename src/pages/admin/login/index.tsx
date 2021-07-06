@@ -13,8 +13,8 @@ const handleSubmit = async (e) => {
     e.preventDefault();
 
     const res = await post(data, 'api/auth/login')
-    localStorage.setItem('token', res.token)
-    localStorage.setItem('user', JSON.stringify(res.data))
+    localStorage.setItem('token', res.$success.info.token)
+    localStorage.setItem('user', JSON.stringify(res.$success.info.user))
     router.push("/admin/dashboard")
 
 };

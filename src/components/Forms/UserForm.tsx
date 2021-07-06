@@ -6,7 +6,6 @@ import InputMask from 'react-input-mask';
 import NoImage from "components/Image/NoImage";
 import user from "pages/api/user";
 import { classNames, getlocalUser } from "utils/functions";
-import Notification, { show } from "components/Notification/Notification";
 import dynamic from 'next/dynamic'
 
 const tabs = [
@@ -16,18 +15,11 @@ const tabs = [
 
   export default function UserForm(props) {
     const [data, setData] = useState(props.data != undefined? props.data: {})
-    const [notify, setNotify] = useState({msg: "", info: "", type:null, show: true})
     let DynamicComponent = dynamic(null);
 
     const handleSubmit = async (e) => {
       e.preventDefault();
-
-      // show({msg: "Success", info: "Parabens, atualizado com sucess", type: "success", show: false})
-      setNotify({msg: "Success", info: "Parabens, atualizado com sucess", type: "success", show: true})
-
-
-      // console.log(data)
-    // props.onSubmitEvent(data);
+    props.onSubmitEvent(data);
   };
 
   const handleChange = async (e) =>{
@@ -42,8 +34,6 @@ const tabs = [
     return (
       <>
       <div id="content">
-      <Notification props={notify} fragment={this} />
-
       <div className="sm:hidden">
         <label htmlFor="tabs" className="sr-only">
           Select a tab

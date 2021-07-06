@@ -4,6 +4,7 @@ import Navbar from "components/Navbars/Navbar";
 import Admin from "layouts/Admin";
 import { Collection } from "mongoose";
 import React, {useEffect, useState, useLayoutEffect} from "react";
+import { toast } from "react-toastify";
 import { put } from "utils/Api";
 import { getlocalUser } from "utils/functions";
 import User from "../../../models/User";
@@ -16,13 +17,16 @@ import dbConnect from '../../../utils/mongodb';
   const onSave = async (data) => {
     try{
       const res = await put(data, "api/user")
-      
-      if(res.success){
-       setUser(user => res.data) 
+      if(res.$success){
+       setUser(user => res.$success.info) 
+       toast.success('Success: '+res.$success.msg);
+      }else{
+        toast.error('Error: '+res.$error.info);
       }
       
     }catch(err){
-  
+      toast.error('Error: '+err);
+
     }
     
   }

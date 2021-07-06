@@ -1,5 +1,6 @@
 import dbConnect  from "utils/mongodb";
 import User from "../../../models/User";
+const message = require("../../../constants/messages");
 
 dbConnect();
 
@@ -13,9 +14,9 @@ export default async (req, res) => {
                 .skip( parseInt(page) * parseInt(limit) )
                 .limit(parseInt(limit))
 
-                res.status(200).json({success: true, data: users})
+                res.status(200).send({success: true, data: users})
             }catch(error){
-                res.status(400).json({success: false})
+                res.status(400).send(message(1))
             }
             break;
         case 'POST':
@@ -25,13 +26,13 @@ export default async (req, res) => {
                 const user = await User.create(req.body);
                 user.password = undefined
                 
-                return res.status(200).json({success: true, data: user})
+                return res.status(200).send(message(0, user))
             }catch(error){
-                return res.status(400).json({success: false})
+                res.status(400).send(message(1))
             }
             break;
         default: 
-            res.status(400).json({success: false})
+        res.status(400).send(message(1))
             break;
 
     };
