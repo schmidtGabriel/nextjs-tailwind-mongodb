@@ -53,6 +53,6 @@
  
 ### Author
 Made by Gabriel Schmidt ✌🏽! <br>
-[![Linkedin Badge](https://img.shields.io/badge/-Gabriel-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/schmidtgabriel2509/)](https://www.linkedin.com/in/schmidtgabriel2509/) 
+[![Linkedin Badge](https://img.shields.io/badge/-Gabriel.Schmidt-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/schmidtgabriel2509/)](https://www.linkedin.com/in/schmidtgabriel2509/) 
 [![Gmail Badge](https://img.shields.io/badge/-g.avilasouza@gmail.com-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:g.avilasouza@gmail.com)](mailto:g.avilasouza@gmail.com)
 
