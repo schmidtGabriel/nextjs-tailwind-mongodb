@@ -1,29 +1,58 @@
-# Next.js + Tailwind CSS Example
+<h1 align="left"> Next.js + Tailwind CSS + MongoDB </h1>
+<p align="left"> This is a quickstart, ready to start your own project in nextjs with tailwind css and database with mongodb</p>
 
-This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v2.2)](https://blog.tailwindcss.com/tailwindcss-2-2) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
+<p align="left">
+<img src="https://img.shields.io/github/repo-size/schmidtGabriel/nextjs-tailwind-mongodb"/>
+<a href="https://github.com/schmidtGabriel/nextjs-tailwind-mongodb/commits/master">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/schmidtGabriel/nextjs-tailwind-mongodb"/>
+</a>
+  <a href="https://github.com/schmidtGabriel">
+    <img alt="made by schmidtGabriel" src="https://img.shields.io/badge/made%20by-SchmidtGabriel-%237519C1">
+  </a>
+</p>
 
-It uses the new [`Just-in-Time Mode`](https://tailwindcss.com/docs/just-in-time-mode) for Tailwind CSS.
 
-## Preview
+### How to use:
 
-Preview the example live on [StackBlitz](http://stackblitz.com/):
+- [Install node](https://nodejs.org/en/download/)
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-tailwindcss)
+- Clone repository: git clone https://github.com/schmidtGabriel/nextjs-tailwind-mongodb.git
 
-## Deploy your own
+- Go to project repository: cd nextjs-tailwind-mongodb
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
+- Install dependencies: npm install
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss&project-name=with-tailwindcss&repository-name=with-tailwindcss)
+- Run to dev: npm run dev
 
-## How to use
+### Features
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
+- [x] user CRUD
+- [x] authentication
 
-```bash
-npx create-next-app --example with-tailwindcss with-tailwindcss-app
-# or
-yarn create next-app --example with-tailwindcss with-tailwindcss-app
-```
+### Technologies
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+- [Next.js](https://nextjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [MongoDB](https://www.mongodb.com/)
+- [Node.js](https://nodejs.org/en/)
+- [TypeScript](https://www.typescriptlang.org/)
+
+### Structure
+
+- src
+  - components
+  - constants
+  - layouts
+  - models
+  - pages
+    - admin
+    - api
+    - home
+  - styles
+  - utils
+ 
+### Author
+Made by Gabriel Schmidt ✌🏽! <br>
+[![Linkedin Badge](https://img.shields.io/badge/-Gabriel.Schmidt-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/schmidtgabriel2509/)](https://www.linkedin.com/in/schmidtgabriel2509/) 
+[![Gmail Badge](https://img.shields.io/badge/-g.avilasouza@gmail.com-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:g.avilasouza@gmail.com)](mailto:g.avilasouza@gmail.com)
+
