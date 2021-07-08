@@ -1,4 +1,5 @@
 import dbConnect  from "utils/mongodb";
+import nc from 'next-connect';
 import User from "../../../../models/User";
 import UserImage from '../../../../models/UserImage';
 import multer from 'multer';
@@ -7,26 +8,44 @@ const message = require("../../../../constants/messages");
 
 dbConnect();
 
-export default async (req, res) => {
-    const {id} = req.params;
-    const {originalname: name, size, filename: key} = req.file;
+const upload = nc()
+.use(multerConfig.single('file')).post((req: any, res: any) => {
+    // const {originalname: name, size, filename: key} = req.file;
 
-    try{
+    if(!req.file) {
+        return res.send({
+             status: false,
+             message: 'No file uploaded'
+         });
+     }
+})
+export default upload;
 
-        await multer(multerConfig).single('file')
+// export default async (req, res) => {
+//     // const {originalname: name, size, filename: key} = req.file;
+//     try{
+//         await multerConfig.single('file')
 
-        const image = await UserImage.create({
-            name,
-            size,
-            key,
-            url: '',
-            user: id,
-        })
+//         if(!req.file) {
+//            return res.send({
+//                 status: false,
+//                 message: 'No file uploaded'
+//             });
+//         }
 
-        const user = await User.findByIdAndUpdate(id, {'imageURL': image.url, 'imageId': image._id}).select("+password");
+
+//         // const image = await UserImage.create({
+//         //     name,
+//         //     size,
+//         //     key,
+//         //     url: '',
+//         //     user: id,
+//         // })
+
+//         // const user = await User.findByIdAndUpdate(id, {'imageURL': image.url, 'imageId': image._id}).select("+password");
         
-        return res.status(200).send(message(0, user))
-    }catch(error){
-        res.status(400).send(message(1))
-    }
-}
+//         return res.status(200).send(message(0))
+//     }catch(error){
+//         res.status(400).send(message(1))
+//     }
+// }

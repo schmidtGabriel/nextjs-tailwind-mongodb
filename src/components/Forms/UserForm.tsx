@@ -7,6 +7,7 @@ import NoImage from "components/Image/NoImage";
 import user from "pages/api/user";
 import { classNames, getlocalUser } from "utils/functions";
 import dynamic from 'next/dynamic'
+import { postFile } from "utils/Api";
 
 const tabs = [
   { name: 'My Account', href: '#', current: true },
@@ -15,12 +16,13 @@ const tabs = [
 
   export default function UserForm(props) {
     const [data, setData] = useState(props.data != undefined? props.data: {})
+    const [file, setFile] = useState(null)
 
     let DynamicComponent = dynamic(null);
 
     const handleSubmit = async (e) => {
       e.preventDefault();
-      props.onSubmitEvent(data);
+      props.onSubmitEvent(data, file);
   };
 
   const handleChange = async (e) =>{
@@ -34,14 +36,15 @@ const tabs = [
     var file = e.target.files[0]
     var reader = new FileReader();
     var url = reader.readAsDataURL(file);
-
+    setFile(file)
    reader.onloadend = function (e) {
     setData({
       ...data,
       'imageURL': reader.result,
-      'file': file
     })
     }.bind(this);
+
+    await postFile(file, "api/user/image/"+data._id)
 
   }
 

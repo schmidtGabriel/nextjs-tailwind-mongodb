@@ -12,17 +12,19 @@ import dbConnect from '../../../utils/mongodb';
 
   export default function UserEdit({data}) {
   const [user, setUser] = useState(data)
+  const [formData, setFormData] = useState(null)
 
   
-  const onSave = async (data) => {
+  const onSave = async (data, file) => {
     try{
-      const file = data.file
       data.imageURL = ""
       const res = await put(data, "api/user")
       if(res.$success){
        setUser(user => res.$success.info)
        if(file){
-        await postFile(file, "api/user/image/"+user._id)
+        // const form = new FormData()
+        // form.append('file', file)
+        // await postFile(file, "api/user/image/"+user._id)
        }
 
        toast.success('Success: '+res.$success.msg);
@@ -40,8 +42,8 @@ import dbConnect from '../../../utils/mongodb';
     return (
       <>
       <Admin>
-      <UserCard data={user}/>
-      <UserForm data={user} onSubmitEvent={onSave}/>
+      <UserCard data={user} />
+      <UserForm data={user} formData={formData} onSubmitEvent={onSave}/>
       </Admin>
       </>
     )

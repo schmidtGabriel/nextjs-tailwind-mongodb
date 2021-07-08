@@ -2,20 +2,17 @@ import multer from 'multer';
 import  path from 'path';
 import  bcrypt from 'bcryptjs';
 
-const multerConfig = {
-    dest: path.resolve(__dirname, '..','..', '..', 'tmp', 'uploads'),
+
+const multerConfig = multer({
+    // dest: path.resolve(__dirname,'..', '..', '..', 'tmp', 'uploads'),
+    // dest: '/src/tmp/uploads',
     storage: multer.diskStorage({
-        destination: (req, file, cb) => {
-            cb(null, path.resolve(__dirname, '..', '..', 'tmp', 'uploads'))
+        destination: function(req, file, cb) {
+            cb(null, '../../../tmp/uploads'); // Make sure this folder exists
         },
-        filename: (req, file, cb) => {
-            bcrypt.randomBytes(16, (err, hash) => {
-                if(err) cb(err);
-
-                const fileName = `${hash.toString('hex')}.png`;
-
-                cb(null, fileName)
-            })
+        filename: function(req, file, cb) {
+            var ext = file.originalname.split('.').pop();
+            cb(null, file.fieldname + '-' + Date.now() + '.' + ext);
         }
 
     }),
@@ -36,6 +33,7 @@ const multerConfig = {
             cb(new Error("Invlalid file type."));
         }
     }
-};
+});
+
 
 export default multerConfig;
