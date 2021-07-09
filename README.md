@@ -41,7 +41,6 @@
 
 - src
   - components
-  - constants
   - layouts
   - models
   - pages
