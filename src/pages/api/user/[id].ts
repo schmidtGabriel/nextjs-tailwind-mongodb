@@ -1,6 +1,6 @@
 import dbConnect  from "utils/mongodb";
 import User from "../../../models/User";
-const message = require("../../../constants/messages");
+const message = require("../../../utils/messages");
 
 dbConnect();
 

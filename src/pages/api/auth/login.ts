@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import User from 'models/User';
 import {NextApiRequest, NextApiResponse} from 'next';
 import dbConnect from 'utils/mongodb';
-const message = require("../../../constants/messages");
+const message = require("../../../utils/messages");
 
 dbConnect();
 

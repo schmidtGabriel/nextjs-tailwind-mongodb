@@ -5,17 +5,15 @@ import React, { useEffect, useState } from "react";
 import User from "../../../models/User";
 import dbConnect from '../../../utils/mongodb';
 import { getAll, del } from "utils/Api";
-import { formatDate } from "utils/functions";
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}
+import { classNames, formatDate} from "utils/functions";
+import { TrashIcon } from "@heroicons/react/outline";
+import Pagination from "components/Pagination/Pagination";
 
 
  function Users({props}) {
   const [data, setData] = useState(props)
   const [page, setPage] = useState(0)
-  const limit = 10
+  const limit = 1
 
   async function deleteItem(id){
     const res = await del(id,"api/user")
@@ -26,16 +24,13 @@ function classNames(...classes) {
     }
   }
 
-  async function fetchData(number, type){
-  if(number >= 0 && type == 'prev' || data.length == limit && type == 'next' || type=='start'){
+ const fetchData = async (number, type) => {
     const query = `?page=${number}&limit=${limit}`
     const res = await getAll("api/user"+query)
     setPage(number)
     setData(res.data)
   }
   
-}
-
 
   return (
     <>
@@ -87,7 +82,7 @@ function classNames(...classes) {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {data.map((person) => (
-                    <tr key={person.email}>
+                    <tr key={person.email} className="px-4">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <div className="flex-shrink-0 h-10 w-10">
@@ -125,50 +120,18 @@ function classNames(...classes) {
                           Edit
                         </a>
                       </td>
-                      <td className="pr-3 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <a onClick={() => deleteItem(person._id)} className="cursor-pointer text-red-600 hover:text-red-900">
-                          Delete
-                        </a>
+                      <td className="pr-3 whitespace-nowrap text-right">
+                         <TrashIcon onClick={() => deleteItem(person._id)} className="cursor-pointer text-red-600 hover:text-red-900 text-4xl"/>
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
-              <nav
-                  className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6"
-                  aria-label="Pagination"
-                >
-                  <div className="hidden sm:block">
-                    <p className="text-sm text-gray-700">
-                      Showing <span className="font-medium">{page * limit + 1}</span> to <span className="font-medium">{page * limit + limit}</span> Results
-                    </p>
-                  </div>
-                  <div className="flex-1 flex justify-start md:justify-end">
-                    <a
-                      onClick={() => fetchData(page-1, 'prev')}
-                      className={classNames(
-                        page == 0
-                          ? 'bg-gray-200 cursor-not-allowed'
-                          : 'cursor-pointer bg-white hover:bg-gray-50',
-                          'relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700'
-                      )}
-                      
-                    >
-                      Previous
-                    </a>
-                    <a
-                      onClick={() => fetchData(page+1, 'next')}
-                      className={classNames(
-                        data.length < limit
-                          ? 'bg-gray-200 cursor-not-allowed'
-                          : 'cursor-pointer bg-white hover:bg-gray-50',
-                          'ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700'
-                      )}
-                      >
-                      Next
-                    </a>
-                  </div>
-                </nav>
+              <Pagination 
+                page={page} 
+                limit={limit} 
+                dataLength={data.length} 
+                onPaginateEvent={fetchData} />
             </div>
           </div>
         </div>
@@ -192,9 +155,9 @@ function classNames(...classes) {
 
 export async function getServerSideProps(context) {
 
-  const data = await User.find({})
-  .skip(0)
-  .limit(10)
+    const data = await User.find()
+    .skip(0)
+    .limit(1)
 
     return {
       props: {

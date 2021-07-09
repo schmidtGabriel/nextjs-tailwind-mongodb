@@ -4,7 +4,7 @@ import User from "../../../../models/User";
 import UserImage from '../../../../models/UserImage';
 import multer from 'multer';
 import multerConfig from '../../middlewares/multer';
-const message = require("../../../../constants/messages");
+const message = require("../../../../utils/messages");
 
 dbConnect();
 
