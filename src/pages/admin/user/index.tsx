@@ -5,15 +5,16 @@ import React, { useEffect, useState } from "react";
 import User from "../../../models/User";
 import dbConnect from '../../../utils/mongodb';
 import { getAll, del } from "utils/Api";
-import { classNames, formatDate} from "utils/functions";
-import { TrashIcon } from "@heroicons/react/outline";
+import { classNames, FirstUppercase, formatDate} from "utils/functions";
+import { CheckIcon, PencilAltIcon, TrashIcon } from "@heroicons/react/outline";
 import Pagination from "components/Pagination/Pagination";
+import router from "next/router";
 
 
  function Users({props}) {
   const [data, setData] = useState(props)
   const [page, setPage] = useState(0)
-  const limit = 1
+  const limit = 10
 
   async function deleteItem(id){
     const res = await del(id,"api/user")
@@ -52,7 +53,7 @@ import Pagination from "components/Pagination/Pagination";
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
-                      Title
+                      Contact
                     </th>
                     <th
                       scope="col"
@@ -64,30 +65,27 @@ import Pagination from "components/Pagination/Pagination";
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
-                      Role
+                      Roles
                     </th>
                     <th
                       scope="col"
                       className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
-                      Cadastro
+                      Register Date
                     </th>
-                    <th scope="col" className="relative px-2 py-3">
-                      <span className="sr-only">Edit</span>
-                    </th>
-                    <th scope="col" className="relative px-2 py-3">
-                      <span className="sr-only">Delete</span>
+                    <th scope="col" className="relative px-4 py-3">
+                      <span className="sr-only">Edit/Delete</span>
                     </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {data.map((person) => (
-                    <tr key={person.email} className="px-4">
-                      <td className="px-6 py-4 whitespace-nowrap">
+                  {data.map((item) => (
+                    <tr key={item.email} className="px-4">
+                      <td className="px-4 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <div className="flex-shrink-0 h-10 w-10">
-                            {person.imageURL?(
-                            <img className="h-10 w-10 rounded-full" src={person.imageURL} alt="" />
+                            {item.imageURL?(
+                            <img className="h-10 w-10 rounded-full" src={item.imageURL} alt="" />
                             ):(
                             <span className="inline-block h-10 w-10 rounded-full overflow-hidden bg-gray-100">
                             <svg className="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
@@ -97,31 +95,48 @@ import Pagination from "components/Pagination/Pagination";
                           )}
                           </div>
                           <div className="ml-4">
-                            <div className="text-sm font-medium text-gray-900">{person.name}</div>
-                            <div className="text-sm text-gray-500">{person.email}</div>
+                            <div className="text-sm font-medium text-gray-900">{item.name}</div>
+                            <div className="text-sm text-gray-500">{item.email}</div>
                           </div>
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">{person.title}</div>
-                        <div className="text-sm text-gray-500">{person.department}</div>
+                      <td className="p-4 text-sm text-left text-gray-500">
+                            {item.phone}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                      <td>
+                        <div className="p-4 flex flex-col gap-1">
+                        <span className="px-1 py-1 text-xs leading-5 font-semibold text-center rounded-full  bg-green-100 text-green-800">
                           Active
                         </span>
+                        </div>
+                       
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{person.roles.map((role) => role)}</td>
-
-                      <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">{formatDate(person.createdAt)}</td>
-
-                      <td className="py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <a href={`user/${person._id}`} className="text-indigo-600 hover:text-indigo-900">
-                          Edit
-                        </a>
+                      <td>
+                      <div className="p-4 flex flex-col gap-1">
+                        {item.roles.slice().sort().map((role) => 
+                      <span 
+                      className={classNames(
+                          role == 'admin'
+                          ? 'bg-green-100 text-green-800'
+                          : role == 'owner'
+                          ? 'bg-blue-100 text-blue-800'
+                          : role == 'user'
+                          ? 'bg-yellow-100 text-yellow-800'
+                          : 'bg-gray-100 text-gray-800',
+                          ' px-1 py-1 text-xs leading-5 font-semibold text-center rounded-full '
+                      )}>
+                     {FirstUppercase(role)}
+                      </span>
+                      )}
+                      </div>
                       </td>
-                      <td className="pr-3 whitespace-nowrap text-right">
-                         <TrashIcon onClick={() => deleteItem(person._id)} className="cursor-pointer text-red-600 hover:text-red-900 text-4xl"/>
+
+                      <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">{formatDate(item.createdAt)}</td>
+                      <td>
+                        <div className="p-4 flex flex-row justify-end items-center gap-2">
+                          <PencilAltIcon onClick={() => router.push(`user/${item._id}`)} className=" w-6 h-6 cursor-pointer text-indigo-600 hover:text-indigo-900 " />
+                          <TrashIcon onClick={() => deleteItem(item._id)} className=" w-6 h-6 cursor-pointer text-red-600 hover:text-red-900"/>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -157,7 +172,7 @@ export async function getServerSideProps(context) {
 
     const data = await User.find()
     .skip(0)
-    .limit(1)
+    .limit(10)
 
     return {
       props: {
