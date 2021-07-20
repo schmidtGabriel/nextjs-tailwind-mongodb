@@ -1,14 +1,22 @@
 import dbConnect  from "utils/mongodb";
 import User from "../../../models/User";
+import middlewareTokenVerify from "../middlewares/tokenVerify";
 const message = require("../../../utils/messages");
 
 dbConnect();
 
 export default async (req, res) => {
     const {method} = req;
+    const { authorization } = req.headers;
+
+   await middlewareTokenVerify(authorization, req, res)
+
+
     switch(method){
         case 'GET':
              const {page, limit} = req.query
+
+
             try{
                 const users = await User.find({}).select("+password")
                 .skip( parseInt(page) * parseInt(limit) )

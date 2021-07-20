@@ -2,15 +2,16 @@
 
 import router from "next/router";
 import { baseURL , header } from "../utils/mongodb";
+import { getlocalToken } from "./functions";
 
 export async function getAll(route) {
     
-
+    console.log(await getlocalToken())
     const res = await fetch(baseURL+route,{
         method: 'GET', 
         headers: {
             ...header,
-            "authorization": "DoNada "+localStorage.getItem('token'),
+            "authorization": "DoNada "+await getlocalToken(),
         },
       })
       if(res){
@@ -32,7 +33,7 @@ export async function get(id, route) {
         method: 'GET', 
         headers:  {
             ...header,
-            "authorization": "DoNada "+localStorage.getItem('token')
+            "authorization": "DoNada "+await getlocalToken()
         },
       })
       if(res){
@@ -48,7 +49,7 @@ export async function post(data, route) {
         method: 'POST', 
         headers: {
             ...header,
-            "authorization": "DoNada "+localStorage.getItem('token')
+            "authorization": "DoNada "+await getlocalToken()
         },
         body: JSON.stringify(data)
       })
@@ -65,7 +66,7 @@ export async function post(data, route) {
         method: 'PUT', 
         headers:  {
             ...header,
-            "authorization": "DoNada "+localStorage.getItem('token')
+            "authorization": "DoNada "+await getlocalToken()
         },
         body: JSON.stringify(data)
       })
@@ -82,7 +83,7 @@ export async function post(data, route) {
         method: 'DELETE', 
         headers:  {
             ...header,
-            "authorization": "DoNada "+localStorage.getItem('token')
+            "authorization": "DoNada "+await getlocalToken()
         },
       })
       if(res){
@@ -99,7 +100,7 @@ export async function post(data, route) {
         method: 'POST', 
         headers: {
             // ...header,
-            "authorization": "DoNada "+localStorage.getItem('token')
+            "authorization": "DoNada "+await getlocalToken()
         },
         body: formData
       })
@@ -111,10 +112,10 @@ export async function post(data, route) {
  }
 
  export async function logout() {
-
+    if (typeof window !== "undefined") {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
-
+    }
     router.push('/admin')
 
 

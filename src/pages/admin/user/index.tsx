@@ -9,11 +9,14 @@ import { classNames, FirstUppercase, formatDate} from "utils/functions";
 import { CheckIcon, PencilAltIcon, TrashIcon } from "@heroicons/react/outline";
 import Pagination from "components/Pagination/Pagination";
 import router from "next/router";
+import ListLoading from "components/Loadings/ListLoading";
+import NoRecord from "components/Lists/NoRecord";
 
 
  function Users({props}) {
-  const [data, setData] = useState(props)
+  const [data, setData] = useState([])
   const [page, setPage] = useState(0)
+  const [loading, setLoading] = useState(false)
   const limit = 10
 
   async function deleteItem(id){
@@ -26,11 +29,18 @@ import router from "next/router";
   }
 
  const fetchData = async (number, type) => {
+    setLoading(true)
     const query = `?page=${number}&limit=${limit}`
     const res = await getAll("api/user"+query)
     setPage(number)
     setData(res.data)
+    setLoading(false)
+
   }
+
+  useEffect( () => {
+    fetchData(page, 'start')
+  },[])
   
 
   return (
@@ -78,9 +88,13 @@ import router from "next/router";
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <ListLoading loading={loading} numCols={6}/> 
+                <tbody className={classNames(
+                          data.length == 0 || loading
+                          ? 'hidden': '',
+                          'bg-white divide-y divide-gray-200')} >
                   {data.map((item) => (
-                    <tr key={item.email} className="px-4">
+                    <tr key={item._id} className="px-4">
                       <td className="px-4 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <div className="flex-shrink-0 h-10 w-10">
@@ -139,13 +153,15 @@ import router from "next/router";
                         </div>
                       </td>
                     </tr>
-                  ))}
+                  ))                  
+                }
                 </tbody>
               </table>
+              <NoRecord dataLength={data.length} loading={loading}/>
               <Pagination 
                 page={page} 
                 limit={limit} 
-                dataLength={data.length} 
+                dataLength={data?data.length: 0} 
                 onPaginateEvent={fetchData} />
             </div>
           </div>
@@ -168,17 +184,17 @@ import router from "next/router";
 //   }
 // }
 
-export async function getServerSideProps(context) {
+// export async function getServerSideProps(context) {
 
-    const data = await User.find()
-    .skip(0)
-    .limit(10)
+//     const data = await User.find()
+//     .skip(0)
+//     .limit(10)
 
-    return {
-      props: {
-        props: JSON.parse(JSON.stringify(data))
-      },
-    };
-}
+//     return {
+//       props: {
+//         props: JSON.parse(JSON.stringify(data))
+//       },
+//     };
+// }
 
 export default Users
