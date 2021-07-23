@@ -20,7 +20,6 @@ import { logout } from 'utils/Api'
 const navigation = [
   { name: 'Dashboard',value: 'dashboard', href: '/admin/dashboard', icon: HomeIcon, current: false },
   { name: 'Users', value:'user', href: '/admin/user', icon: UsersIcon, current: false },
-  { name: 'Products',value: 'product', href: '#', icon: FolderIcon, current: false },
 ]
 
 export interface User {

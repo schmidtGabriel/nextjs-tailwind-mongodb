@@ -11,17 +11,17 @@ export default function Navbar() {
   let title = path[1]
   if(path.length > 2){
     if(path[2]=="create"){
-      title = path[1] +"-"+ path[2]
+      title = path[1] +" - "+ "Create"
     }else{
-      title = path[1] +"-"+ "Edit"
+      title = path[1] +" - "+ "Edit"
     }
   }
 
   let go = ""
-  if(path[1] != "dashboard" && path.length == 2){
-    go = path[1]+"/create"
+  if(path[1] != "dashboard" && path[2] != "create"){
+    go = "/admin/"+path[1]+"/create"
   }
-
+  
   return (
     <div className="md:flex md:items-center md:justify-between py-5">
     <div className="flex-1 min-w-0">

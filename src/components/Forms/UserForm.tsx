@@ -52,7 +52,7 @@ const tabs = [
 
     return (
       <>
-      <div id="content">
+      <div id="content" className={classNames(!data?._id? 'hidden': '')}>
       <div className="sm:hidden">
         <label htmlFor="tabs" className="sr-only">
           Select a tab
