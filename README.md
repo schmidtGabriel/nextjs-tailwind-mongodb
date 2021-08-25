@@ -16,6 +16,8 @@
 
 - [Install node](https://nodejs.org/en/download/)
 
+- [Install mongodb](https://docs.mongodb.com/manual/installation/)
+
 - Clone repository: git clone https://github.com/schmidtGabriel/nextjs-tailwind-mongodb.git
 
 - Go to project repository: cd nextjs-tailwind-mongodb
