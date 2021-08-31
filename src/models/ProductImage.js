@@ -1,22 +1,27 @@
 import mongoose from 'mongoose'
-import User from "./User";
+import Product from "./Product";
 
-const UserImageSchema =  new mongoose.Schema({
+const ProductImageSchema =  new mongoose.Schema({
     name: {
         type: String,
+        required: true
     },
-    size:{
+    size: {
         type: Number,
     },
     url: {
         type: String,
     },
-    key:{
+    isMain: {
+        type: Boolean,
+        default: false
+    },
+    key: {
         type: String,
     },
-    user: {
+    product: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'Product',
         required: true
     },
     createdAt: {
@@ -25,11 +30,11 @@ const UserImageSchema =  new mongoose.Schema({
     }
 });
 
-UserImageSchema.pre('save', async function(next) {
+ProductImageSchema.pre('save', async function(next) {
     if(!this.url) {
         const env = process.env.NODE_ENV;
         if(env === "development"){
-            this.url = `/pics/user/${this.name}`
+            this.url = `/pics/product/${this.name}`
         }else{
 
         }
@@ -39,6 +44,6 @@ UserImageSchema.pre('save', async function(next) {
 })
 
 
-export default mongoose.models.UserImage || mongoose.model('UserImage', UserImageSchema)
+export default mongoose.models.ProductImage || mongoose.model('ProductImage', ProductImageSchema)
  
 

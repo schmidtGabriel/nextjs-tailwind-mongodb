@@ -18,8 +18,7 @@ import NoImage from 'components/Image/NoImage'
 import { logout } from 'utils/Api'
 
 const navigation = [
-  { name: 'Dashboard',value: 'dashboard', href: '/admin/dashboard', icon: HomeIcon, current: false },
-  { name: 'Users', value:'user', href: '/admin/user', icon: UsersIcon, current: false },
+  { name: 'Home',value: 'home', href: '/home', icon: HomeIcon, current: false },
 ]
 
 export interface User {
@@ -35,7 +34,7 @@ function classNames(...classes) {
 }
 
 
-export default function Sidebar({ children }) {
+export default function MenuSidebar({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [user, setUser] = useState({
     _id: '',
@@ -102,9 +101,9 @@ export default function Sidebar({ children }) {
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
               >
-                <div className="absolute top-0 right-0 -mr-12 pt-2">
+                <div className="absolute top-0 right-0 pt-2">
                   <button
-                    className="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                    className="ml-1 flex items-center justify-center h-10 w-10 focus:ring-0 focus:bg-gray-900"
                     onClick={() => setSidebarOpen(false)}
                   >
                     <span className="sr-only">Close sidebar</span>
@@ -112,16 +111,8 @@ export default function Sidebar({ children }) {
                   </button>
                 </div>
               </Transition.Child>
-              <div className="flex flex-col items-center flex-shrink-0 py-10 bg-gray-900">
-                {user.imageURL != ""? 
-                <img className="h-20 w-20 rounded-full" src={user.imageURL} alt="" />
-                :
-                <span className="inline-block h-16 w-16 mr-2 rounded-full overflow-hidden bg-gray-100">
-                <NoImage/>
-                </span>
-                }  
-                <a  href={`/admin/user/${user._id}`}><div className="text-lg font-medium text-white mt-2 cursor-pointer">Bem vindo  {user.name}</div></a>
-                <div className="text-sm font-light text-white mt-2 cursor-pointer">Log out</div>
+              <div className="h-20 flex flex-col items-center flex-shrink-0 py-10 bg-gray-900 text-white font-bold">
+                 MENUSY
               </div>
               <div className="mt-5 flex-1 h-0 overflow-y-auto">
                 <nav className="px-2 space-y-1">
@@ -159,16 +150,8 @@ export default function Sidebar({ children }) {
         <div className="flex flex-col w-64">
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex flex-col h-0 flex-1">
-          <div className="flex flex-col items-center flex-shrink-0 py-10 bg-gray-900">
-                {user.imageURL ? 
-                <img className="h-20 w-20 rounded-full" src={user.imageURL} alt="" />
-                :
-                <span className="inline-block h-20 w-20 mr-2 rounded-full overflow-hidden bg-gray-100">
-                <NoImage/>
-                </span>
-                }  
-                <a  href={`user/${user._id}`}><div className="text-lg font-medium text-white mt-2 cursor-pointer">Bem vindo  {user.name}</div></a>
-                <div onClick={logout} className="text-sm font-light text-white mt-2 cursor-pointer underline">Log out</div>
+          <div className="h-20 flex flex-col items-center flex-shrink-0 py-10 bg-gray-900">
+                
               </div>
             <div className="flex-1 flex flex-col overflow-y-auto">
               <nav className="flex-1 px-2 py-4 bg-gray-800 space-y-1">
@@ -197,22 +180,23 @@ export default function Sidebar({ children }) {
         </div>
       </div>
       <div className="flex flex-col w-0 flex-1 overflow-hidden">
-        <div className="relative z-10 flex-shrink-0 flex h-16 bg-gray-700 shadow">
+        <div className="relative z-10 flex-shrink-0 flex h-16 bg-gray-800 shadow">
           <button
-            className="px-4 border-r border-gray-200 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden"
+            className="px-4 text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden"
             onClick={() => setSidebarOpen(true)}
           >
             <span className="sr-only">Open sidebar</span>
             <MenuAlt2Icon className="h-6 w-6" aria-hidden="true" />
           </button>
+
+        <div className="w-full flex">
+            <div className="w-full text-white text-2xl text-center self-center mr-16">MENUSY</div>
+        
+        </div>
         </div>
 
-        <main className="flex-1 relative overflow-y-auto focus:outline-none">
-          <div className="py-4">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+        <main className="w-ful flex-1 relative overflow-y-auto focus:outline-none">
             { children }
-            </div>
-          </div>
         </main>
       </div>
     </div>

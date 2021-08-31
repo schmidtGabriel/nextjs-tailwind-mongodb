@@ -5,26 +5,16 @@ export default function Pagination(props){
     const page = props.page
     const limit = props.limit
     const dataLength = props.dataLength
+    const skip = page * limit
   
     async function fetchData(number, type){
       if(number >= 0 && type == 'prev' || dataLength == limit && type == 'next' || type=='start'){
-        console.log("xx")
-
-        props.onPaginateEvent(number, type);
-  
+        props.onPaginateEvent(number);
       }
-      
     }
   
     return(
     <>
-        <div className={classNames(
-                dataLength > 0
-                  ? 'hidden'
-                  : 'text-lg bg-white px-6 py-4'
-              )}>
-              <p className="text-gray-400">No Records </p>    
-        </div>
       <nav
           className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6"
           aria-label="Pagination"
@@ -36,7 +26,7 @@ export default function Pagination(props){
                   ? 'hidden'
                   : 'text-sm text-gray-700'
               )}>
-              Showing <span className="font-medium">{page * limit + 1}</span> to <span className="font-medium">{page * limit + limit}</span> Results
+              Showing <span className="font-medium">{skip + 1}</span> to <span className="font-medium">{skip+dataLength}</span> Results
             </p>
           </div>
           <div className="flex-1 flex justify-start md:justify-end">

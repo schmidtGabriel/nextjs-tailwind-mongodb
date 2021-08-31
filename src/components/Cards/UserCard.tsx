@@ -16,7 +16,7 @@ export default function UserCard({data}) {
                 <NoImage/>
                 </span>
         }  
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 ml-4">
         <h1 className="text-2xl font-bold">{data.name}</h1>
         <div className="flex flex-row gap-4">
         <div className="flex flex-row content-center">

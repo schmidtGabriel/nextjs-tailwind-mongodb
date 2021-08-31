@@ -33,11 +33,9 @@ const UserSchema =  new mongoose.Schema({
     },
     imageURL: {
         type: String,
-        default: '',
     },
     imageId: {
         type: String,
-        default: '',
     },
     password: {
         type: String,

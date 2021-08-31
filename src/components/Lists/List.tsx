@@ -3,7 +3,7 @@ import Pagination from "components/Pagination/Pagination"
 import React, { useState } from "react"
 import NoRecord from "./NoRecord"
 
-function List({header, body, data, loading, loadData, page, limit}){
+function List({header, body, data, loading, loadData, page, limit, numCols}){
   
     return(
         <div className="flex flex-col">
@@ -12,10 +12,10 @@ function List({header, body, data, loading, loadData, page, limit}){
             <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
               <table className="min-w-full divide-y divide-gray-200">
                 {header}
-                <ListLoading loading={loading} numCols={6}/> 
+                <ListLoading loading={loading} numCols={numCols}/> 
                 {body}
               </table>
-              <NoRecord dataLength={data.length} loading={loading}/>
+              <NoRecord dataLength={data?.length} loading={loading}/>
               <Pagination 
                 page={page} 
                 limit={limit} 

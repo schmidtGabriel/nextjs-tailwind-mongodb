@@ -21,7 +21,7 @@ export default function Navbar() {
   if(path[1] != "dashboard" && path[2] != "create"){
     go = "/admin/"+path[1]+"/create"
   }
-  
+
   return (
     <div className="md:flex md:items-center md:justify-between py-5">
     <div className="flex-1 min-w-0">
