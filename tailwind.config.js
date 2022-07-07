@@ -1,7 +1,11 @@
 module.exports = {
-  mode: 'jit',
-  purge: ['./src/pages/**/*.{js,ts,jsx,tsx}', './src/components/**/*.{js,ts,jsx,tsx}','./src/layouts/**/*.{js,ts,jsx,tsx}' ],
-  darkMode: 'class', // or 'media' or 'class'
+  //   mode: 'jit',
+  content: [
+    "./src/pages/**/*.{js,ts,jsx,tsx}",
+    "./src/components/**/*.{js,ts,jsx,tsx}",
+    "./src/layouts/**/*.{js,ts,jsx,tsx}",
+  ],
+  darkMode: "class", // or 'media' or 'class'
   theme: {
     extend: {},
   },
@@ -9,7 +13,7 @@ module.exports = {
     extend: {},
   },
   plugins: [
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/aspect-ratio'),
+    require("@tailwindcss/forms"),
+    require("@tailwindcss/aspect-ratio"),
   ],
-}
+};

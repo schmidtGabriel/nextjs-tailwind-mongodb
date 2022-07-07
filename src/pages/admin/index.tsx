@@ -27,6 +27,7 @@ function Admin() {
     if (user) {
       userId = "?userId=" + user._id;
     }
+    console.log("xx");
     const res = await get(null, "api/auth/me" + userId);
     if (res.$success) {
       localStorage.setItem("token", res.$success.info.token);

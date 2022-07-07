@@ -1,5 +1,5 @@
-import { Fragment, useState, useEffect } from 'react'
-import { Dialog, Menu, Transition } from '@headlessui/react'
+import { Fragment, useState, useEffect } from "react";
+import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
   BellIcon,
   CalendarIcon,
@@ -10,56 +10,57 @@ import {
   MenuAlt2Icon,
   UsersIcon,
   XIcon,
-} from '@heroicons/react/outline'
-import { SearchIcon } from '@heroicons/react/solid'
-import { useRouter } from 'next/router'
-import { getlocalUser } from '../../utils/functions';
-import NoImage from 'components/Image/NoImage'
-import { logout } from 'utils/Api'
+} from "@heroicons/react/outline";
+import { SearchIcon } from "@heroicons/react/solid";
+import { useRouter } from "next/router";
+import { getlocalUser } from "../../utils/functions";
+import NoImage from "components/Image/NoImage";
+import { logout } from "utils/Api";
 
 const navigation = [
-  { name: 'Home',value: 'home', href: '/home', icon: HomeIcon, current: false },
-]
+  {
+    name: "Home",
+    value: "home",
+    href: "/home",
+    icon: HomeIcon,
+    current: false,
+  },
+];
 
 export interface User {
-  _id: ''
-  name: '',
-  imageURL: '',
+  _id: "";
+  name: "";
+  imageURL: "";
 }
-
-
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(" ");
 }
 
-
 export default function MenuSidebar({ children }) {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [user, setUser] = useState({
-    _id: '',
-    name: '',
-    imageURL: '',
-  })
-  const router = useRouter()
-  const rootpage = router.pathname.replace("/","").split("/")
-  for(var i=0; i < navigation.length;i++){
-      navigation[i].current = false
-      if(rootpage[1] == navigation[i].value){
-        navigation[i].current = true
-      }
+    _id: "",
+    name: "",
+    imageURL: "",
+  });
+  const router = useRouter();
+  const rootpage = router.pathname.replace("/", "").split("/");
+  for (var i = 0; i < navigation.length; i++) {
+    navigation[i].current = false;
+    if (rootpage[1] == navigation[i].value) {
+      navigation[i].current = true;
+    }
   }
 
   useEffect(() => {
     async function fetchMyAPI() {
-      const u = await getlocalUser()
-      setUser(u)
+      const u = await getlocalUser();
+      setUser(u);
     }
-    
-    fetchMyAPI()
-},[])
 
-
+    fetchMyAPI();
+  }, []);
 
   return (
     <div className="h-screen flex overflow-hidden bg-gray-100">
@@ -112,7 +113,7 @@ export default function MenuSidebar({ children }) {
                 </div>
               </Transition.Child>
               <div className="h-20 flex flex-col items-center flex-shrink-0 py-10 bg-gray-900 text-white font-bold">
-                 MENUSY
+                ONDE.IR
               </div>
               <div className="mt-5 flex-1 h-0 overflow-y-auto">
                 <nav className="px-2 space-y-1">
@@ -121,14 +122,18 @@ export default function MenuSidebar({ children }) {
                       key={item.name}
                       href={item.href}
                       className={classNames(
-                        item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                        'group flex items-center px-2 py-2 text-base font-medium rounded-md'
+                        item.current
+                          ? "bg-gray-900 text-white"
+                          : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                        "group flex items-center px-2 py-2 text-base font-medium rounded-md"
                       )}
                     >
                       <item.icon
                         className={classNames(
-                          item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
-                          'mr-4 flex-shrink-0 h-6 w-6'
+                          item.current
+                            ? "text-gray-300"
+                            : "text-gray-400 group-hover:text-gray-300",
+                          "mr-4 flex-shrink-0 h-6 w-6"
                         )}
                         aria-hidden="true"
                       />
@@ -150,9 +155,7 @@ export default function MenuSidebar({ children }) {
         <div className="flex flex-col w-64">
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex flex-col h-0 flex-1">
-          <div className="h-20 flex flex-col items-center flex-shrink-0 py-10 bg-gray-900">
-                
-              </div>
+            <div className="h-20 flex flex-col items-center flex-shrink-0 py-10 bg-gray-900"></div>
             <div className="flex-1 flex flex-col overflow-y-auto">
               <nav className="flex-1 px-2 py-4 bg-gray-800 space-y-1">
                 {navigation.map((item) => (
@@ -160,14 +163,18 @@ export default function MenuSidebar({ children }) {
                     key={item.name}
                     href={item.href}
                     className={classNames(
-                      item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                      'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
+                      item.current
+                        ? "bg-gray-900 text-white"
+                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                      "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
                     )}
                   >
                     <item.icon
                       className={classNames(
-                        item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
-                        'mr-3 flex-shrink-0 h-6 w-6'
+                        item.current
+                          ? "text-gray-300"
+                          : "text-gray-400 group-hover:text-gray-300",
+                        "mr-3 flex-shrink-0 h-6 w-6"
                       )}
                       aria-hidden="true"
                     />
@@ -189,18 +196,17 @@ export default function MenuSidebar({ children }) {
             <MenuAlt2Icon className="h-6 w-6" aria-hidden="true" />
           </button>
 
-        <div className="w-full flex">
-            <div className="w-full text-white text-2xl text-center self-center mr-16">MENUSY</div>
-        
-        </div>
+          <div className="w-full flex">
+            <div className="w-full text-white text-2xl text-center self-center mr-16">
+              ONDE.IR
+            </div>
+          </div>
         </div>
 
         <main className="w-ful flex-1 relative overflow-y-auto focus:outline-none">
-            { children }
+          {children}
         </main>
       </div>
     </div>
-  )
+  );
 }
-
-

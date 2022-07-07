@@ -29,29 +29,32 @@ const navigation = [
     roles: ["admin", "owner", "user"],
   },
   {
-    name: "Users",
-    value: "user",
+    name: "Usuários",
+    value: "usuarios",
     href: "/admin/user",
     icon: UsersIcon,
     current: false,
     roles: ["admin", "owner", "user"],
   },
   {
-    name: "Products",
-    value: "product",
-    href: "/admin/product",
+    name: "Estabelecimentos",
+    value: "estabelecimentos",
+    href: "/admin/locations",
     icon: ShoppingBagIcon,
     current: false,
     roles: ["admin", "owner", "user"],
   },
+];
+
+const settings = [
   {
-    name: "Categories",
-    value: "category",
-    href: "/admin/category",
-    icon: CollectionIcon,
+    name: "Categorias",
+    value: "categoria",
+    href: "/admin/categories",
+    icon: HomeIcon,
     current: false,
-    roles: ["admin", "owner", "user"],
-  }
+    roles: ["admin"],
+  },
 ];
 
 function classNames(...classes) {
@@ -88,174 +91,16 @@ export default function Sidebar({ children }) {
     return false;
   }
 
-
   return (
     <div className="h-screen flex overflow-hidden bg-gray-100">
-      <Transition.Root show={sidebarOpen} as={Fragment}>
-        <Dialog
-          as="div"
-          static
-          className="fixed inset-0 flex z-40 md:hidden"
-          open={sidebarOpen}
-          onClose={setSidebarOpen}
-        >
-          <Transition.Child
-            as={Fragment}
-            enter="transition-opacity ease-linear duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="transition-opacity ease-linear duration-300"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <Dialog.Overlay className="fixed inset-0 bg-gray-600 bg-opacity-75" />
-          </Transition.Child>
-          <Transition.Child
-            as={Fragment}
-            enter="transition ease-in-out duration-300 transform"
-            enterFrom="-translate-x-full"
-            enterTo="translate-x-0"
-            leave="transition ease-in-out duration-300 transform"
-            leaveFrom="translate-x-0"
-            leaveTo="-translate-x-full"
-          >
-            <div className="relative flex-1 flex flex-col max-w-xs w-full pb-4 bg-gray-800">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-in-out duration-300"
-                enterFrom="opacity-0"
-                enterTo="opacity-100"
-                leave="ease-in-out duration-300"
-                leaveFrom="opacity-100"
-                leaveTo="opacity-0"
-              >
-                <div className="absolute top-0 right-0 pt-2">
-                  <button
-                    className="ml-1 flex items-center justify-center h-10 w-10 rounded-full "
-                    onClick={() => setSidebarOpen(false)}
-                  >
-                    <span className="sr-only">Close sidebar</span>
-                    <XIcon className="h-6 w-6 text-white" aria-hidden="true" />
-                  </button>
-                </div>
-              </Transition.Child>
-              <div className="flex flex-col items-center flex-shrink-0 py-10 bg-gray-900">
-                {user?.imageURL != "" ? (
-                  <img
-                    className="h-20 w-20 rounded-full"
-                    src={user?.imageURL}
-                    alt=""
-                  />
-                ) : (
-                  <span className="inline-block h-16 w-16 mr-2 rounded-full overflow-hidden bg-gray-100">
-                    <NoImage />
-                  </span>
-                )}
-                <a href={`/admin/user/${user?._id}`}>
-                  <div className="text-lg font-medium text-white mt-2 cursor-pointer">
-                    Bem vindo {user?.name}
-                  </div>
-                </a>
-                <div className="text-sm font-light text-white mt-2 cursor-pointer">
-                  Log out
-                </div>
-              </div>
-              <div className="mt-5 flex-1 h-0 overflow-y-auto">
-                <nav className="px-2 space-y-1">
-                  {navigation.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className={classNames(
-                        item.current
-                          ? "bg-gray-900 text-white"
-                          : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                        !hasRole(item.roles) ? "hidden" : "",
-                        "group flex items-center px-2 py-2 text-base font-medium rounded-md"
-                      )}
-                    >
-                      <item.icon
-                        className={classNames(
-                          item.current
-                            ? "text-gray-300"
-                            : "text-gray-400 group-hover:text-gray-300",
-                          "mr-4 flex-shrink-0 h-6 w-6"
-                        )}
-                        aria-hidden="true"
-                      />
-                      {item.name}
-                    </a>
-                  ))}
-                </nav>
-              </div>
-            </div>
-          </Transition.Child>
-          <div className="flex-shrink-0 w-14" aria-hidden="true">
-            {/* Dummy element to force sidebar to shrink to fit close icon */}
-          </div>
-        </Dialog>
-      </Transition.Root>
+      <MobileMenu
+        hasRole={hasRole}
+        sidebarOpen={sidebarOpen}
+        setSidebarOpen={setSidebarOpen}
+        user={user}
+      ></MobileMenu>
 
-      {/* Static sidebar for desktop */}
-      <div className="hidden md:flex md:flex-shrink-0">
-        <div className="flex flex-col w-64">
-          {/* Sidebar component, swap this element with another sidebar if you like */}
-          <div className="flex flex-col h-0 flex-1">
-            <div className="flex flex-col items-center flex-shrink-0 py-10 bg-gray-900">
-              {user?.imageURL ? (
-                <img
-                  className="h-20 w-20 rounded-full"
-                  src={user?.imageURL}
-                  alt=""
-                />
-              ) : (
-                <span className="inline-block h-20 w-20 mr-2 rounded-full overflow-hidden bg-gray-100">
-                  <NoImage />
-                </span>
-              )}
-              <a href={`/admin/user/${user?._id}`}>
-                <div className="text-lg font-medium text-white mt-2 cursor-pointer">
-                  Bem vindo {user?.name}
-                </div>
-              </a>
-              <div
-                onClick={logout}
-                className="text-sm font-light text-white mt-2 cursor-pointer underline"
-              >
-                Log out
-              </div>
-            </div>
-            <div className="flex-1 flex flex-col overflow-y-auto">
-              <nav className="flex-1 px-2 py-4 bg-gray-800 space-y-1">
-                {navigation.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className={classNames(
-                      item.current
-                        ? "bg-gray-900 text-white"
-                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                      !hasRole(item.roles) ? "hidden" : "",
-                      "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
-                    )}
-                  >
-                    <item.icon
-                      className={classNames(
-                        item.current
-                          ? "text-gray-300"
-                          : "text-gray-400 group-hover:text-gray-300",
-                        "mr-3 flex-shrink-0 h-6 w-6"
-                      )}
-                      aria-hidden="true"
-                    />
-                    {item.name}
-                  </a>
-                ))}
-              </nav>
-            </div>
-          </div>
-        </div>
-      </div>
+      <DesktopMenu hasRole={hasRole} user={user}></DesktopMenu>
 
       {/* top bar and childer */}
       <div className="flex flex-col w-0 flex-1 overflow-hidden">
@@ -269,7 +114,7 @@ export default function Sidebar({ children }) {
           </button>
           <div className="w-full flex">
             <div className="w-full text-white text-2xl text-center self-center mr-16">
-              MENUSY
+              ONDE.IR
             </div>
           </div>
         </div>
@@ -281,6 +126,232 @@ export default function Sidebar({ children }) {
             </div>
           </div>
         </main>
+      </div>
+    </div>
+  );
+}
+
+export function MobileMenu({ hasRole, sidebarOpen, setSidebarOpen, user }) {
+  return (
+    <Transition.Root show={sidebarOpen} as={Fragment}>
+      <Dialog
+        as="div"
+        static
+        className="fixed inset-0 flex z-40 md:hidden"
+        open={sidebarOpen}
+        onClose={setSidebarOpen}
+      >
+        <Transition.Child
+          as={Fragment}
+          enter="transition-opacity ease-linear duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="transition-opacity ease-linear duration-300"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <Dialog.Overlay className="fixed inset-0 bg-gray-600 bg-opacity-75" />
+        </Transition.Child>
+        <Transition.Child
+          as={Fragment}
+          enter="transition ease-in-out duration-300 transform"
+          enterFrom="-translate-x-full"
+          enterTo="translate-x-0"
+          leave="transition ease-in-out duration-300 transform"
+          leaveFrom="translate-x-0"
+          leaveTo="-translate-x-full"
+        >
+          <div className="relative flex-1 flex flex-col max-w-xs w-full pb-4 bg-gray-800">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-in-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in-out duration-300"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="absolute top-0 right-0 pt-2">
+                <button
+                  className="ml-1 flex items-center justify-center h-10 w-10 rounded-full "
+                  onClick={() => setSidebarOpen(false)}
+                >
+                  <span className="sr-only">Close sidebar</span>
+                  <XIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                </button>
+              </div>
+            </Transition.Child>
+            <div className="flex flex-col items-center flex-shrink-0 py-10 bg-gray-900">
+              {user?.imageURL != "" ? (
+                <img
+                  className="h-20 w-20 rounded-full"
+                  src={user?.imageURL}
+                  alt=""
+                />
+              ) : (
+                <span className="inline-block h-16 w-16 mr-2 rounded-full overflow-hidden bg-gray-100">
+                  <NoImage />
+                </span>
+              )}
+              <a href={`/admin/user/${user?._id}`}>
+                <div className="text-lg font-medium text-white mt-2 cursor-pointer">
+                  Bem vindo {user?.name}
+                </div>
+              </a>
+              <div className="text-sm font-light text-white mt-2 cursor-pointer">
+                Log out
+              </div>
+            </div>
+            <div className="mt-5 flex-1 h-0 overflow-y-auto divide-y divide-white">
+              <nav className="px-2 space-y-1">
+                {navigation.map((item) => (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    className={classNames(
+                      item.current
+                        ? "bg-gray-900 text-white"
+                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                      !hasRole(item.roles) ? "hidden" : "",
+                      "group flex items-center px-2 py-2 text-base font-medium rounded-md"
+                    )}
+                  >
+                    <item.icon
+                      className={classNames(
+                        item.current
+                          ? "text-gray-300"
+                          : "text-gray-400 group-hover:text-gray-300",
+                        "mr-4 flex-shrink-0 h-6 w-6"
+                      )}
+                      aria-hidden="true"
+                    />
+                    {item.name}
+                  </a>
+                ))}
+              </nav>
+
+              <nav className="px-2 space-y-1">
+                {navigation.map((item) => (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    className={classNames(
+                      item.current
+                        ? "bg-gray-900 text-white"
+                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                      !hasRole(item.roles) ? "hidden" : "",
+                      "group flex items-center px-2 py-2 text-base font-medium rounded-md"
+                    )}
+                  >
+                    <item.icon
+                      className={classNames(
+                        item.current
+                          ? "text-gray-300"
+                          : "text-gray-400 group-hover:text-gray-300",
+                        "mr-4 flex-shrink-0 h-6 w-6"
+                      )}
+                      aria-hidden="true"
+                    />
+                    {item.name}
+                  </a>
+                ))}
+              </nav>
+            </div>
+          </div>
+        </Transition.Child>
+        <div className="flex-shrink-0 w-14" aria-hidden="true">
+          {/* Dummy element to force sidebar to shrink to fit close icon */}
+        </div>
+      </Dialog>
+    </Transition.Root>
+  );
+}
+
+export function DesktopMenu({ hasRole, user }) {
+  return (
+    <div className="hidden md:flex md:flex-shrink-0 ">
+      <div className="flex flex-col w-64">
+        {/* Sidebar component, swap this element with another sidebar if you like */}
+        <div className="flex flex-col h-0 flex-1">
+          <div className="flex flex-col items-center flex-shrink-0 py-10 bg-gray-900">
+            {user?.imageURL ? (
+              <img
+                className="h-20 w-20 rounded-full"
+                src={user?.imageURL}
+                alt=""
+              />
+            ) : (
+              <span className="inline-block h-20 w-20 mr-2 rounded-full overflow-hidden bg-gray-100">
+                <NoImage />
+              </span>
+            )}
+            <a href={`/admin/user/${user?._id}`}>
+              <div className="text-lg font-medium text-white mt-2 cursor-pointer">
+                Bem vindo {user?.name}
+              </div>
+            </a>
+            <div
+              onClick={logout}
+              className="text-sm font-light text-white mt-2 cursor-pointer underline"
+            >
+              Log out
+            </div>
+          </div>
+          <div className=" flex-1 flex-col px-2 overflow-y-auto divide-y divide-slate-50 bg-gray-800">
+            <nav className="flex flex-col  py-4 space-y-1">
+              {navigation.map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className={classNames(
+                    item.current
+                      ? "bg-gray-900 text-white"
+                      : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                    !hasRole(item.roles) ? "hidden" : "",
+                    "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+                  )}
+                >
+                  <item.icon
+                    className={classNames(
+                      item.current
+                        ? "text-gray-300"
+                        : "text-gray-400 group-hover:text-gray-300",
+                      "mr-3 flex-shrink-0 h-6 w-6"
+                    )}
+                    aria-hidden="true"
+                  />
+                  {item.name}
+                </a>
+              ))}
+            </nav>
+            <nav className="flex flex-col py-4  space-y-1">
+              {navigation.map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className={classNames(
+                    item.current
+                      ? "bg-gray-900 text-white"
+                      : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                    !hasRole(item.roles) ? "hidden" : "",
+                    "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+                  )}
+                >
+                  <item.icon
+                    className={classNames(
+                      item.current
+                        ? "text-gray-300"
+                        : "text-gray-400 group-hover:text-gray-300",
+                      "mr-3 flex-shrink-0 h-6 w-6"
+                    )}
+                    aria-hidden="true"
+                  />
+                  {item.name}
+                </a>
+              ))}
+            </nav>
+          </div>
+        </div>
       </div>
     </div>
   );
